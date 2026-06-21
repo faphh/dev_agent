@@ -1,7 +1,14 @@
 import { c as _c } from "react/compiler-runtime";
 import { feature } from 'bun:bundle';
 import figures from 'figures';
-import React, { type ReactNode, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
+import React, { type ReactNode, useEffect, useMemo, useRef, useState, useCallback } from 'react';
+
+// Polyfill for useEffectEvent (React 19 feature)
+function useEffectEvent<T extends (...args: unknown[]) => unknown>(callback: T): T {
+  const ref = useRef<T>(callback);
+  ref.current = callback;
+  return useCallback((...args: unknown[]) => ref.current(...args), []) as T;
+}
 import { isCoordinatorMode } from 'src/coordinator/coordinatorMode.js';
 import { useTerminalSize } from 'src/hooks/useTerminalSize.js';
 import { useAppState, useSetAppState } from 'src/state/AppState.js';
