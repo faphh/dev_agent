@@ -17,4 +17,22 @@ if [ -f "$SCRIPT_DIR/.env" ]; then
   set +a
 fi
 
+# ============================================================
+# 检查是否在真实终端中运行
+# ============================================================
+if [ ! -t 0 ] || [ ! -t 1 ]; then
+  # 不是交互式终端，使用 -p 模式
+  if [ $# -eq 0 ]; then
+    echo "错误: Dev Agent 交互模式需要在真实终端中运行。"
+    echo ""
+    echo "使用方法:"
+    echo "  1. 直接在终端运行: ./dev-agent.sh"
+    echo "  2. 非交互模式: ./dev-agent.sh -p \"你的问题\""
+    echo ""
+    echo "示例:"
+    echo "  ./dev-agent.sh -p \"你好，请介绍一下自己\""
+    exit 1
+  fi
+fi
+
 exec "$NODE_BIN" "$SCRIPT_DIR/dist/cli.js" "$@"
