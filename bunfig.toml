@@ -16,14 +16,3 @@ sourcemap = "external"
 [run]
 # Run configuration
 bun = true
-
-[alias]
-# Map private Anthropic packages to local stubs
-"@ant/claude-for-chrome-mcp" = "./src/stubs/@ant/claude-for-chrome-mcp/index.ts"
-"@anthropic-ai/bedrock-sdk" = "./src/stubs/@anthropic-ai/bedrock-sdk/index.ts"
-"@anthropic-ai/foundry-sdk" = "./src/stubs/@anthropic-ai/foundry-sdk/index.ts"
-"@anthropic-ai/mcpb" = "./src/stubs/@anthropic-ai/mcpb/index.ts"
-"@anthropic-ai/sandbox-runtime" = "./src/stubs/@anthropic-ai/sandbox-runtime/index.ts"
-"@anthropic-ai/vertex-sdk" = "./src/stubs/@anthropic-ai/vertex-sdk/index.ts"
-"color-diff-napi" = "./src/stubs/color-diff-napi/index.ts"
-"modifiers-napi" = "./src/stubs/modifiers-napi/index.ts"

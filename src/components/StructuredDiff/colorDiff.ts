@@ -3,7 +3,7 @@ import {
   ColorFile,
   getSyntaxTheme as nativeGetSyntaxTheme,
   type SyntaxTheme,
-} from 'color-diff-napi'
+} from '../../stubs/color-diff-napi/index.js'
 import { isEnvDefinedFalsy } from '../../utils/envUtils.js'
 
 export type ColorModuleUnavailableReason = 'env'

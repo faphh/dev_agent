@@ -151,7 +151,7 @@ export async function getAnthropicClient({
     }),
   }
   if (isEnvTruthy(process.env.CLAUDE_CODE_USE_BEDROCK)) {
-    const { AnthropicBedrock } = await import('@anthropic-ai/bedrock-sdk')
+    const { AnthropicBedrock } = await import('../../stubs/@anthropic-ai/bedrock-sdk/index.js')
     // Use region override for small fast model if specified
     const awsRegion =
       model === getSmallFastModel() &&
@@ -189,7 +189,7 @@ export async function getAnthropicClient({
     return new AnthropicBedrock(bedrockArgs) as unknown as Anthropic
   }
   if (isEnvTruthy(process.env.CLAUDE_CODE_USE_FOUNDRY)) {
-    const { AnthropicFoundry } = await import('@anthropic-ai/foundry-sdk')
+    const { AnthropicFoundry } = await import('../../stubs/@anthropic-ai/foundry-sdk/index.js')
     // Determine Azure AD token provider based on configuration
     // SDK reads ANTHROPIC_FOUNDRY_API_KEY by default
     let azureADTokenProvider: (() => Promise<string>) | undefined
@@ -202,7 +202,7 @@ export async function getAnthropicClient({
         const {
           DefaultAzureCredential: AzureCredential,
           getBearerTokenProvider,
-        } = await import('@azure/identity')
+        } = await import('../../stubs/@azure/identity/index.js')
         azureADTokenProvider = getBearerTokenProvider(
           new AzureCredential(),
           'https://cognitiveservices.azure.com/.default',
@@ -226,7 +226,7 @@ export async function getAnthropicClient({
     }
 
     const [{ AnthropicVertex }, { GoogleAuth }] = await Promise.all([
-      import('@anthropic-ai/vertex-sdk'),
+      import('../../stubs/@anthropic-ai/vertex-sdk/index.js'),
       import('google-auth-library'),
     ])
     // TODO: Cache either GoogleAuth instance or AuthClient to improve performance

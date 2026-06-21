@@ -8,8 +8,8 @@
     "dev-agent": "dist/main.js"
   },
   "scripts": {
-    "build": "bun run build:bundle",
-    "build:bundle": "bun build src/entrypoints/cli.tsx --outdir dist --target node --format esm --sourcemap=external --external @ant/claude-for-chrome-mcp --external @anthropic-ai/bedrock-sdk --external @anthropic-ai/foundry-sdk --external @anthropic-ai/mcpb --external @anthropic-ai/sandbox-runtime --external @anthropic-ai/vertex-sdk --external @azure/identity --external color-diff-napi --external modifiers-napi --external sharp --external fflate --external turndown",
+    "build": "bun run build.ts",
+    "build:bundle": "bun build src/entrypoints/cli.tsx --outdir dist --target node --format esm --sourcemap=external --external sharp --external fflate --external turndown",
     "dev": "bun run src/entrypoints/cli.tsx",
     "start": "node dist/main.js",
     "typecheck": "tsc --noEmit",

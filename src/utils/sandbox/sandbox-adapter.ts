@@ -14,12 +14,12 @@ import type {
   SandboxDependencyCheck,
   SandboxRuntimeConfig,
   SandboxViolationEvent,
-} from '@anthropic-ai/sandbox-runtime'
+} from '../../stubs/@anthropic-ai/sandbox-runtime/index.js'
 import {
   SandboxManager as BaseSandboxManager,
   SandboxRuntimeConfigSchema,
   SandboxViolationStore,
-} from '@anthropic-ai/sandbox-runtime'
+} from '../../stubs/@anthropic-ai/sandbox-runtime/index.js'
 import { rmSync, statSync } from 'fs'
 import { readFile } from 'fs/promises'
 import { memoize } from 'lodash-es'

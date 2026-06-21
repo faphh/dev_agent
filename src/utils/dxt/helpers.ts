@@ -13,7 +13,7 @@ import { jsonParse } from '../slowOperations.js'
 export async function validateManifest(
   manifestJson: unknown,
 ): Promise<McpbManifest> {
-  const { McpbManifestSchema } = await import('@anthropic-ai/mcpb')
+  const { McpbManifestSchema } = await import('../../stubs/@anthropic-ai/mcpb/index.js')
   const parseResult = McpbManifestSchema.safeParse(manifestJson)
 
   if (!parseResult.success) {
