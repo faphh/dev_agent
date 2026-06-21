@@ -1,34 +1,24 @@
 #!/bin/bash
-# Dev Agent CLI wrapper script
-# Usage: dev-agent [options]
+# Dev Agent 全局命令
 
-# Get the real path of this script (following symlinks)
-SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null || realpath "${BASH_SOURCE[0]}" 2>/dev/null || echo "${BASH_SOURCE[0]}")"
-SCRIPT_DIR="$(cd "$(dirname "$SCRIPT_PATH")" && pwd)"
-NODE_BIN="/Users/jack/.nvm/versions/node/v22.22.2/bin/node"
+# 获取 Dev Agent 安装目录
+DEV_AGENT_DIR="/Users/jack/Desktop/dev_agent"
 
-# ============================================================
 # 清除可能冲突的环境变量
-# ============================================================
 unset ANTHROPIC_API_KEY
 
-# ============================================================
-# 加载环境配置 (从 .env 文件)
-# ============================================================
-if [ -f "$SCRIPT_DIR/.env" ]; then
-  # 导出 .env 文件中的所有变量
-  set -a
-  source "$SCRIPT_DIR/.env"
-  set +a
+# 加载环境配置
+if [ -f "$DEV_AGENT_DIR/.env" ]; then
+    set -a
+    source "$DEV_AGENT_DIR/.env"
+    set +a
 fi
 
-# ============================================================
 # 判断运行模式
-# ============================================================
-# 如果有参数，使用原始 CLI
 if [ $# -gt 0 ]; then
-  exec "$NODE_BIN" "$SCRIPT_DIR/dist/cli.js" "$@"
+    # 有参数，使用原始 CLI
+    exec node "$DEV_AGENT_DIR/dist/cli.js" "$@"
+else
+    # 无参数，使用交互模式
+    exec node "$DEV_AGENT_DIR/dev-agent-interactive.js"
 fi
-
-# 如果没有参数，使用简化交互模式 (更可靠)
-exec "$NODE_BIN" "$SCRIPT_DIR/dev-agent-interactive.js"
