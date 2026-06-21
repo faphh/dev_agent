@@ -48,6 +48,7 @@
     "@smithy/core": "^3.25.1",
     "@smithy/node-http-handler": "^4.8.1",
     "ajv": "^8.17.1",
+    "openai": "^4.73.0",
     "asciichart": "^1.5.16",
     "auto-bind": "^5.0.1",
     "axios": "^1.7.9",
