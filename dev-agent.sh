@@ -22,4 +22,13 @@ if [ -f "$SCRIPT_DIR/.env" ]; then
   set +a
 fi
 
-exec "$NODE_BIN" "$SCRIPT_DIR/dist/cli.js" "$@"
+# ============================================================
+# 判断运行模式
+# ============================================================
+# 如果有参数，使用原始 CLI
+if [ $# -gt 0 ]; then
+  exec "$NODE_BIN" "$SCRIPT_DIR/dist/cli.js" "$@"
+fi
+
+# 如果没有参数，使用简化交互模式 (更可靠)
+exec "$NODE_BIN" "$SCRIPT_DIR/dev-agent-interactive.js"
