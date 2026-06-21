@@ -1,0 +1,13 @@
+[install]
+# Use Bun's built-in peer dependency resolution
+peer = true
+
+[build]
+# Build configuration
+target = "node"
+format = "esm"
+sourcemap = "external"
+
+[run]
+# Run configuration
+bun = true
