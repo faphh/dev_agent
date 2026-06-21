@@ -50,7 +50,7 @@ Dev Agent 是一个运行在终端中的 AI 编程助手，基于 Anthropic 的 
 ### 环境要求
 
 - **Node.js** >= 18
-- **npm** 或 **bun**
+- **bun** (推荐) 或 npm
 - 支持 macOS、Linux、Windows (WSL)
 
 ### 安装步骤
@@ -65,17 +65,16 @@ cd dev_agent
 #### 2. 安装依赖
 
 ```bash
-# 使用 npm
-npm install
+# 安装 bun (如果未安装)
+curl -fsSL https://bun.sh/install | bash
 
-# 或使用 bun (推荐)
+# 安装项目依赖
 bun install
 ```
 
 #### 3. 构建项目
 
 ```bash
-# 使用 bun 构建
 bun run build
 ```
 
@@ -90,14 +89,24 @@ ANTHROPIC_AUTH_TOKEN=你的API密钥
 ANTHROPIC_MODEL=mimo-v2.5-pro
 ```
 
-#### 5. 全局安装 (可选)
+#### 5. 全局安装
 
 ```bash
-# 运行安装脚本，添加全局命令
+# 运行安装脚本，添加全局 dev-agent 命令
 ./install.sh
 
 # 使配置生效
 source ~/.zshrc
+```
+
+#### 6. 测试运行
+
+```bash
+# 测试是否安装成功
+dev-agent --version
+
+# 运行交互模式
+dev-agent
 ```
 
 ---
@@ -109,11 +118,7 @@ source ~/.zshrc
 在终端中直接运行：
 
 ```bash
-# 如果已全局安装
 dev-agent
-
-# 或者在项目目录下运行
-./dev-agent.sh
 ```
 
 进入交互模式后：
@@ -122,7 +127,7 @@ dev-agent
 - 输入 `/help` 查看可用命令
 - 输入 `quit` 或 `exit` 退出
 
-示例：
+示例对话：
 ```
 Dev Agent v1.0.0
 输入消息与 AI 对话 | /help 帮助 | quit 退出
@@ -132,6 +137,9 @@ Dev Agent v1.0.0
 
 > 解释一下 main.tsx 的作用
 main.tsx 是项目的入口文件...
+
+> quit
+再见！
 ```
 
 ### 非交互模式
@@ -175,36 +183,22 @@ dev-agent -d ~/projects/my-app
 
 ### 环境变量
 
-在 `.env` 文件中配置：
+在项目根目录的 `.env` 文件中配置：
 
 ```bash
 # ============================================================
-# API 配置
+# API 配置 (选择一个平台)
 # ============================================================
 
-# Anthropic API (默认)
+# 方式1: Anthropic 官方 API
 ANTHROPIC_BASE_URL=https://api.anthropic.com
 ANTHROPIC_AUTH_TOKEN=你的API密钥
 ANTHROPIC_MODEL=claude-sonnet-4-6
 
-# 小米开放平台 (Anthropic 兼容)
+# 方式2: 小米开放平台 (Anthropic 兼容)
 ANTHROPIC_BASE_URL=https://token-plan-cn.xiaomimimo.com/anthropic
 ANTHROPIC_AUTH_TOKEN=你的API密钥
 ANTHROPIC_MODEL=mimo-v2.5-pro
-
-# ============================================================
-# OpenAI 配置 (可选)
-# ============================================================
-DEV_AGENT_PROVIDER=openai
-OPENAI_API_KEY=sk-xxx
-OPENAI_MODEL=gpt-4o
-
-# ============================================================
-# Ollama 配置 (本地模型，可选)
-# ============================================================
-DEV_AGENT_PROVIDER=ollama
-OLLAMA_BASE_URL=http://localhost:11434
-OLLAMA_MODEL=llama3.1
 ```
 
 ### 配置优先级
@@ -229,12 +223,12 @@ Dev Agent 支持多种 AI API 平台：
 
 ### 使用 OpenAI
 
-```bash
-export DEV_AGENT_PROVIDER=openai
-export OPENAI_API_KEY=sk-xxx
-export OPENAI_MODEL=gpt-4o
+在 `.env` 文件中配置：
 
-dev-agent
+```bash
+DEV_AGENT_PROVIDER=openai
+OPENAI_API_KEY=sk-xxx
+OPENAI_MODEL=gpt-4o
 ```
 
 ### 使用 Ollama (本地模型)
@@ -246,12 +240,10 @@ curl -fsSL https://ollama.com/install.sh | sh
 # 2. 下载模型
 ollama pull llama3.1
 
-# 3. 配置 Dev Agent
-export DEV_AGENT_PROVIDER=ollama
-export OLLAMA_MODEL=llama3.1
-
-# 4. 运行
-dev-agent
+# 3. 在 .env 中配置
+DEV_AGENT_PROVIDER=ollama
+OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_MODEL=llama3.1
 ```
 
 ---
@@ -273,7 +265,7 @@ dev_agent/
 │   └── utils/             # 工具函数
 ├── dist/                  # 构建输出
 ├── docs/                  # 文档
-├── .env                   # 环境配置 (不提交)
+├── .env                   # 环境配置 (不提交到 Git)
 ├── package.json           # 项目配置
 ├── tsconfig.json          # TypeScript 配置
 └── build.ts               # 构建脚本
@@ -327,7 +319,7 @@ A: 确保在真实终端中运行，不要通过管道或脚本运行。
 
 ### Q: API 连接失败怎么办？
 
-A: 检查 `.env` 文件中的 API 配置是否正确。
+A: 检查 `.env` 文件中的 API 配置是否正确，确保 API 密钥有效。
 
 ### Q: 如何切换模型？
 
