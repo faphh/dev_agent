@@ -213,17 +213,9 @@ dev-agent -d ~/projects/my-app
 | 命令 | 说明 |
 |------|------|
 | `/compact` | 压缩上下文 |
-| `/session` | 会话管理 |
-| `/memory` | 记忆管理 |
-
-#### 工具命令
-| 命令 | 说明 |
-|------|------|
-| `/doctor` | 健康检查 |
-| `/theme` | 主题切换 |
-| `/vim` | Vim 模式 |
-| `/review` | 代码审查 |
-| `/plan` | 计划模式 |
+| `/context` | 查看上下文 |
+| `/version` | 查看版本 |
+| `/release-notes` | 查看更新日志 |
 
 ---
 

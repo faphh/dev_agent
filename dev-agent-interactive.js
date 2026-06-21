@@ -153,15 +153,9 @@ function printHelp() {
   console.log('');
   console.log(colorize(colors.yellow + colors.bold, '  会话管理'));
   console.log(colorize(colors.yellow, '  /compact') + colorize(colors.gray, '     - 压缩上下文'));
-  console.log(colorize(colors.yellow, '  /session') + colorize(colors.gray, '     - 会话管理'));
-  console.log(colorize(colors.yellow, '  /memory') + colorize(colors.gray, '      - 记忆管理'));
-  console.log('');
-  console.log(colorize(colors.yellow + colors.bold, '  工具命令'));
-  console.log(colorize(colors.yellow, '  /doctor') + colorize(colors.gray, '      - 健康检查'));
-  console.log(colorize(colors.yellow, '  /theme') + colorize(colors.gray, '       - 主题切换'));
-  console.log(colorize(colors.yellow, '  /vim') + colorize(colors.gray, '         - Vim 模式'));
-  console.log(colorize(colors.yellow, '  /review') + colorize(colors.gray, '      - 代码审查'));
-  console.log(colorize(colors.yellow, '  /plan') + colorize(colors.gray, '        - 计划模式'));
+  console.log(colorize(colors.yellow, '  /context') + colorize(colors.gray, '     - 查看上下文'));
+  console.log(colorize(colors.yellow, '  /version') + colorize(colors.gray, '     - 查看版本'));
+  console.log(colorize(colors.yellow, '  /release-notes') + colorize(colors.gray, ' - 查看更新日志'));
   console.log('');
   console.log(colorize(colors.gray, '  直接输入消息即可与 AI 对话'));
   console.log('');
@@ -374,75 +368,14 @@ rl.on('line', (input) => {
     return;
   }
 
-  // 处理成本命令
-  if (trimmed === '/cost' || trimmed === 'cost') {
-    console.log(colorize(colors.gray, '  Token 使用量统计功能开发中...'));
-    console.log('');
-    prompt();
-    return;
-  }
+  // 处理内置命令 (通过 -p 参数传递给 CLI)
+  // 只支持 supportsNonInteractive: true 的命令
+  const builtinCommands = ['/cost', '/compact', '/context', '/version', '/release-notes'];
+  const command = builtinCommands.find(cmd => trimmed.startsWith(cmd));
 
-  // 处理压缩命令
-  if (trimmed === '/compact' || trimmed === 'compact') {
-    console.log(colorize(colors.gray, '  上下文压缩功能开发中...'));
-    console.log('');
-    prompt();
-    return;
-  }
-
-  // 处理会话命令
-  if (trimmed === '/session' || trimmed === 'session') {
-    console.log(colorize(colors.gray, '  会话管理功能开发中...'));
-    console.log('');
-    prompt();
-    return;
-  }
-
-  // 处理记忆命令
-  if (trimmed === '/memory' || trimmed === 'memory') {
-    console.log(colorize(colors.gray, '  记忆管理功能开发中...'));
-    console.log('');
-    prompt();
-    return;
-  }
-
-  // 处理健康检查命令
-  if (trimmed === '/doctor' || trimmed === 'doctor') {
-    console.log(colorize(colors.gray, '  健康检查功能开发中...'));
-    console.log('');
-    prompt();
-    return;
-  }
-
-  // 处理主题命令
-  if (trimmed === '/theme' || trimmed === 'theme') {
-    console.log(colorize(colors.gray, '  主题切换功能开发中...'));
-    console.log('');
-    prompt();
-    return;
-  }
-
-  // 处理 Vim 模式命令
-  if (trimmed === '/vim' || trimmed === 'vim') {
-    console.log(colorize(colors.gray, '  Vim 模式功能开发中...'));
-    console.log('');
-    prompt();
-    return;
-  }
-
-  // 处理代码审查命令
-  if (trimmed === '/review' || trimmed === 'review') {
-    console.log(colorize(colors.gray, '  代码审查功能开发中...'));
-    console.log('');
-    prompt();
-    return;
-  }
-
-  // 处理计划模式命令
-  if (trimmed === '/plan' || trimmed === 'plan') {
-    console.log(colorize(colors.gray, '  计划模式功能开发中...'));
-    console.log('');
-    prompt();
+  if (command) {
+    // 将命令传递给 CLI 执行
+    sendMessage(trimmed);
     return;
   }
 
