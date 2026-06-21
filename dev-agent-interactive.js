@@ -112,7 +112,7 @@ function printBanner() {
   console.log(colorize(colors.cyan + colors.bold, '  ║                                                   ║'));
   console.log(colorize(colors.cyan + colors.bold, '  ║           🤖 Dev Agent v1.0.0                    ║'));
   console.log(colorize(colors.cyan + colors.bold, '  ║                                                   ║'));
-  console.log(colorize(colors.cyan + colors.bold, '  ║       AI 编程助手 - 基于 Claude Code 架构        ║'));
+  console.log(colorize(colors.cyan + colors.bold, '  ║         专属于你的牛马程序员 🐂🐴               ║'));
   console.log(colorize(colors.cyan + colors.bold, '  ║                                                   ║'));
   console.log(colorize(colors.cyan + colors.bold, '  ╚═══════════════════════════════════════════════════╝'));
   console.log('');
@@ -140,12 +140,28 @@ function printHelp() {
   console.log(colorize(colors.cyan + colors.bold, '  📖 命令列表'));
   console.log(colorize(colors.gray, '  ─────────────────────────────────────────────'));
   console.log('');
-  console.log(colorize(colors.yellow, '  /help') + colorize(colors.gray, '     - 显示此帮助信息'));
-  console.log(colorize(colors.yellow, '  /model') + colorize(colors.gray, '    - 切换模型'));
-  console.log(colorize(colors.yellow, '  /config') + colorize(colors.gray, '   - 查看当前配置'));
-  console.log(colorize(colors.yellow, '  /clear') + colorize(colors.gray, '    - 清除屏幕'));
-  console.log(colorize(colors.yellow, '  quit') + colorize(colors.gray, '      - 退出程序'));
-  console.log(colorize(colors.yellow, '  exit') + colorize(colors.gray, '      - 退出程序'));
+  console.log(colorize(colors.yellow + colors.bold, '  基础命令'));
+  console.log(colorize(colors.yellow, '  /help') + colorize(colors.gray, '       - 显示此帮助信息'));
+  console.log(colorize(colors.yellow, '  /clear') + colorize(colors.gray, '      - 清除屏幕'));
+  console.log(colorize(colors.yellow, '  /config') + colorize(colors.gray, '     - 查看当前配置'));
+  console.log(colorize(colors.yellow, '  quit') + colorize(colors.gray, '        - 退出程序'));
+  console.log(colorize(colors.yellow, '  exit') + colorize(colors.gray, '        - 退出程序'));
+  console.log('');
+  console.log(colorize(colors.yellow + colors.bold, '  模型相关'));
+  console.log(colorize(colors.yellow, '  /model') + colorize(colors.gray, '       - 切换模型'));
+  console.log(colorize(colors.yellow, '  /cost') + colorize(colors.gray, '        - 查看 Token 使用量'));
+  console.log('');
+  console.log(colorize(colors.yellow + colors.bold, '  会话管理'));
+  console.log(colorize(colors.yellow, '  /compact') + colorize(colors.gray, '     - 压缩上下文'));
+  console.log(colorize(colors.yellow, '  /session') + colorize(colors.gray, '     - 会话管理'));
+  console.log(colorize(colors.yellow, '  /memory') + colorize(colors.gray, '      - 记忆管理'));
+  console.log('');
+  console.log(colorize(colors.yellow + colors.bold, '  工具命令'));
+  console.log(colorize(colors.yellow, '  /doctor') + colorize(colors.gray, '      - 健康检查'));
+  console.log(colorize(colors.yellow, '  /theme') + colorize(colors.gray, '       - 主题切换'));
+  console.log(colorize(colors.yellow, '  /vim') + colorize(colors.gray, '         - Vim 模式'));
+  console.log(colorize(colors.yellow, '  /review') + colorize(colors.gray, '      - 代码审查'));
+  console.log(colorize(colors.yellow, '  /plan') + colorize(colors.gray, '        - 计划模式'));
   console.log('');
   console.log(colorize(colors.gray, '  直接输入消息即可与 AI 对话'));
   console.log('');
@@ -355,6 +371,78 @@ rl.on('line', (input) => {
   if (trimmed === '/model' || trimmed === 'model') {
     printModels();
     waitingForModelSelection = true;
+    return;
+  }
+
+  // 处理成本命令
+  if (trimmed === '/cost' || trimmed === 'cost') {
+    console.log(colorize(colors.gray, '  Token 使用量统计功能开发中...'));
+    console.log('');
+    prompt();
+    return;
+  }
+
+  // 处理压缩命令
+  if (trimmed === '/compact' || trimmed === 'compact') {
+    console.log(colorize(colors.gray, '  上下文压缩功能开发中...'));
+    console.log('');
+    prompt();
+    return;
+  }
+
+  // 处理会话命令
+  if (trimmed === '/session' || trimmed === 'session') {
+    console.log(colorize(colors.gray, '  会话管理功能开发中...'));
+    console.log('');
+    prompt();
+    return;
+  }
+
+  // 处理记忆命令
+  if (trimmed === '/memory' || trimmed === 'memory') {
+    console.log(colorize(colors.gray, '  记忆管理功能开发中...'));
+    console.log('');
+    prompt();
+    return;
+  }
+
+  // 处理健康检查命令
+  if (trimmed === '/doctor' || trimmed === 'doctor') {
+    console.log(colorize(colors.gray, '  健康检查功能开发中...'));
+    console.log('');
+    prompt();
+    return;
+  }
+
+  // 处理主题命令
+  if (trimmed === '/theme' || trimmed === 'theme') {
+    console.log(colorize(colors.gray, '  主题切换功能开发中...'));
+    console.log('');
+    prompt();
+    return;
+  }
+
+  // 处理 Vim 模式命令
+  if (trimmed === '/vim' || trimmed === 'vim') {
+    console.log(colorize(colors.gray, '  Vim 模式功能开发中...'));
+    console.log('');
+    prompt();
+    return;
+  }
+
+  // 处理代码审查命令
+  if (trimmed === '/review' || trimmed === 'review') {
+    console.log(colorize(colors.gray, '  代码审查功能开发中...'));
+    console.log('');
+    prompt();
+    return;
+  }
+
+  // 处理计划模式命令
+  if (trimmed === '/plan' || trimmed === 'plan') {
+    console.log(colorize(colors.gray, '  计划模式功能开发中...'));
+    console.log('');
+    prompt();
     return;
   }
 
