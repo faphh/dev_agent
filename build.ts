@@ -1,11 +1,22 @@
 // Build script for Dev Agent
 import { build, plugin } from 'bun'
 import { join } from 'path'
-import { readFileSync } from 'fs'
+import { readFileSync, writeFileSync } from 'fs'
 
 // Read version from package.json
 const packageJson = JSON.parse(readFileSync(join(__dirname, 'package.json'), 'utf-8'))
 const version = packageJson.version || '1.0.0'
+
+// Polyfill for stdin.ref() in non-TTY environments
+const STDIN_POLYFILL = `
+// Polyfill for stdin.ref() in non-TTY environments
+if (typeof process.stdin.ref !== 'function') {
+  process.stdin.ref = function() { return this; };
+}
+if (typeof process.stdin.unref !== 'function') {
+  process.stdin.unref = function() { return this; };
+}
+`
 
 // Plugin to resolve stub packages
 plugin({
@@ -67,6 +78,14 @@ async function main() {
   console.log('Build successful!')
   for (const output of result.outputs) {
     console.log(`  ${output.path} (${(output.size / 1024 / 1024).toFixed(2)} MB)`)
+
+    // Inject stdin polyfill for non-TTY environments
+    if (output.path.endsWith('.js')) {
+      const content = readFileSync(output.path, 'utf-8')
+      const polyfilled = STDIN_POLYFILL + '\n' + content
+      writeFileSync(output.path, polyfilled)
+      console.log(`    → Injected stdin polyfill`)
+    }
   }
 }
 
