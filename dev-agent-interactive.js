@@ -35,14 +35,11 @@ if (fs.existsSync(envPath)) {
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: '\x1b[36mDev Agent>\x1b[0m '
+  prompt: '\x1b[36m\x1b[1m>\x1b[0m '
 });
 
-console.log('\x1b[1m\x1b[36m╔═══════════════════════════════════════╗\x1b[0m');
-console.log('\x1b[1m\x1b[36m║       Dev Agent 交互模式             ║\x1b[0m');
-console.log('\x1b[1m\x1b[36m╚═══════════════════════════════════════╝\x1b[0m');
-console.log('');
-console.log('\x1b[90m提示: 输入消息与 AI 对话，输入 /help 查看命令，输入 quit 退出\x1b[0m');
+console.log('\x1b[1m\x1b[36mDev Agent v1.0.0\x1b[0m');
+console.log('\x1b[90m输入消息与 AI 对话 | /help 帮助 | quit 退出\x1b[0m');
 console.log('');
 
 let isProcessing = false;
@@ -56,77 +53,24 @@ function prompt() {
 async function sendMessage(message) {
   isProcessing = true;
 
-  // 显示用户消息
-  console.log('\x1b[36m\x1b[1mYou>\x1b[0m ' + message);
-  console.log('');
-
   try {
-    // 调用 Dev Agent 的流式输出模式
+    // 调用 Dev Agent
     const child = spawn('node', [
       path.join(__dirname, 'dist', 'cli.js'),
-      '-p', message,
-      '--output-format', 'stream-json',
-      '--verbose'
+      '-p', message
     ], {
       stdio: ['pipe', 'pipe', 'pipe'],
       env: process.env
     });
 
-    let buffer = '';
-    let isStarted = false;
+    let output = '';
     let errorOutput = '';
 
     child.stdout.on('data', (data) => {
       const text = data.toString();
-      buffer += text;
-
-      // 处理流式 JSON 数据
-      const lines = buffer.split('\n');
-      buffer = lines.pop() || ''; // 保留最后一个不完整的行
-
-      for (const line of lines) {
-        if (!line.trim()) continue;
-
-        try {
-          const event = JSON.parse(line);
-
-          // 处理不同类型的消息
-          if (event.type === 'assistant' && event.message?.content) {
-            // 提取文本内容
-            for (const block of event.message.content) {
-              if (block.type === 'text' && block.text) {
-                if (!isStarted) {
-                  process.stdout.write('\x1b[32m\x1b[1mDev Agent>\x1b[0m ');
-                  isStarted = true;
-                }
-                process.stdout.write('\x1b[32m' + block.text + '\x1b[0m');
-              }
-            }
-          } else if (event.type === 'content_block_delta' && event.delta?.text) {
-            // 流式文本增量
-            if (!isStarted) {
-              process.stdout.write('\x1b[32m\x1b[1mDev Agent>\x1b[0m ');
-              isStarted = true;
-            }
-            process.stdout.write('\x1b[32m' + event.delta.text + '\x1b[0m');
-          } else if (event.type === 'result') {
-            // 最终结果
-            if (event.result && !isStarted) {
-              process.stdout.write('\x1b[32m\x1b[1mDev Agent>\x1b[0m ');
-              process.stdout.write('\x1b[32m' + event.result + '\x1b[0m');
-            }
-          }
-        } catch (e) {
-          // 如果不是 JSON，可能是普通文本输出
-          if (line.trim() && !line.includes('DeprecationWarning')) {
-            if (!isStarted) {
-              process.stdout.write('\x1b[32m\x1b[1mDev Agent>\x1b[0m ');
-              isStarted = true;
-            }
-            process.stdout.write('\x1b[32m' + line + '\x1b[0m');
-          }
-        }
-      }
+      output += text;
+      // 实时输出
+      process.stdout.write('\x1b[32m' + text);
     });
 
     child.stderr.on('data', (data) => {
@@ -134,23 +78,9 @@ async function sendMessage(message) {
     });
 
     child.on('close', (code) => {
-      // 处理缓冲区中剩余的数据
-      if (buffer.trim()) {
-        try {
-          const event = JSON.parse(buffer);
-          if (event.type === 'content_block_delta' && event.delta?.text) {
-            if (!isStarted) {
-              process.stdout.write('\x1b[32m\x1b[1mDev Agent>\x1b[0m ');
-            }
-            process.stdout.write('\x1b[32m' + event.delta.text + '\x1b[0m');
-          }
-        } catch (e) {
-          // 忽略解析错误
-        }
-      }
-
-      if (isStarted) {
-        console.log(''); // 换行
+      // 重置颜色
+      if (output) {
+        process.stdout.write('\x1b[0m');
       }
 
       if (errorOutput.trim() && !errorOutput.includes('DeprecationWarning')) {
